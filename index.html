@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>73072 PRINTS — handmade in Norman</title>
+  <meta name="description" content="3D-printed desk, kitchen, and gift pieces. Made in Norman OK. Cash on pickup, 2–5 days." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #eadfcb;
+      --ink: #1c1610;
+      --muted: #6e6458;
+      --accent: #b33a0f;
+      --card: #f6efe0;
+      --rule: #cfc3ad;
+      --ticket: #1c1610;
+      --ticket-ink: #f6efe0;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--paper); color: var(--ink); }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+      min-height: 100dvh;
+    }
+    button, a { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    h1, h2 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; letter-spacing: -0.03em; margin: 0; text-wrap: pretty; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100dvh;
+    }
+    .rail {
+      border-right: 1px solid var(--rule);
+      padding: 28px 22px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      overflow: auto;
+    }
+    .brand {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+    }
+    .brand span { display: block; color: var(--accent); }
+    .lede { color: var(--muted); font-size: 14px; max-width: 22ch; }
+    .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 14px; }
+    .steps li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 8px; align-items: start; }
+    .steps b { font-family: "IBM Plex Mono", monospace; font-weight: 500; color: var(--accent); }
+    .rules { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+    .rules strong { color: var(--ink); font-weight: 600; }
+
+    .ticket {
+      background: var(--ticket);
+      color: var(--ticket-ink);
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+      margin-top: auto;
+    }
+    .ticket h2 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; font-family: "IBM Plex Mono", monospace; font-weight: 500; }
+    .ticket ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; min-height: 3rem; }
+    .ticket li { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dashed #3a332c; padding-bottom: 4px; }
+    .ticket .empty { color: #9a9084; }
+    .ticket .sum { display: flex; justify-content: space-between; font-family: "IBM Plex Mono", monospace; font-size: 14px; }
+    .go {
+      background: var(--accent);
+      color: #fff8f3;
+      border: 0;
+      min-height: 44px;
+      padding: 0 14px;
+      font-weight: 600;
+    }
+    .go:disabled { opacity: 0.45; }
+    .ghost {
+      background: transparent;
+      color: var(--ticket-ink);
+      border: 1px solid #4a433b;
+      min-height: 36px;
+    }
+
+    .main { padding: 22px 22px 140px; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .top p { margin: 0; color: var(--muted); font-size: 14px; max-width: 46ch; }
+    .filters { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 14px 0 18px; position: sticky; top: 0; background: var(--paper); z-index: 2; }
+    .filters button {
+      background: none;
+      border: 0;
+      padding: 8px 0;
+      min-height: 44px;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+    }
+    .filters button[aria-pressed="true"] {
+      color: var(--ink);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      min-height: 220px;
+      padding: 14px 14px 12px;
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      gap: 8px;
+      text-align: left;
+    }
+    .card:hover, .card:focus-visible { border-color: var(--ink); outline: none; }
+    .card.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+    .sku {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .sku b { font-size: 28px; color: var(--ink); font-weight: 500; line-height: 1; }
+    .card h3 { font-family: "Bricolage Grotesque", sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.03em; margin: 0; text-wrap: pretty; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .price { font-family: "IBM Plex Mono", monospace; font-size: 16px; }
+    .tag { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-family: "IBM Plex Mono", monospace; }
+
+    .notes {
+      margin-top: 36px;
+      padding-top: 16px;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 12px;
+      max-width: 72ch;
+    }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--ink);
+      color: var(--ticket-ink);
+      padding: 12px 14px;
+      font-size: 14px;
+      display: none;
+      z-index: 5;
+    }
+    .toast.show { display: block; }
+
+    @media (max-width: 860px) {
+      .shell { grid-template-columns: 1fr; }
+      .rail {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 22px;
+      }
+      .ticket { display: none; }
+      .mobile-ticket {
+        display: grid;
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        background: var(--ticket);
+        color: var(--ticket-ink);
+        padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        z-index: 4;
+      }
+    }
+    @media (min-width: 861px) { .mobile-ticket { display: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <div>
+        <div class="brand">73072<span>PRINTS</span></div>
+        <p class="lede">Handmade 3D prints. Norman, Oklahoma. You pick it, I print it, you pick it up.</p>
+      </div>
+      <ol class="steps">
+        <li><b>01</b><span>Tap what you want. Mix colors when you text me.</span></li>
+        <li><b>02</b><span>Send the order. I reply with a pickup window.</span></li>
+        <li><b>03</b><span>Cash on pickup in Norman / south OKC. Usually 2–5 days.</span></li>
+      </ol>
+      <div class="rules">
+        <div><strong>Cash only.</strong> No Venmo, Cash App, PayPal, Zelle.</div>
+        <div><strong>Pickup only on this site.</strong> No shipping from here.</div>
+        <div><strong>Made to order.</strong> Not sitting on a shelf.</div>
+      </div>
+      <section class="ticket" aria-live="polite">
+        <h2>Order ticket</h2>
+        <ul id="ticket-list"><li class="empty">Nothing yet.</li></ul>
+        <div class="sum"><span>Total</span><span id="ticket-sum">$0</span></div>
+        <button class="go" id="send" type="button" disabled>Send this order</button>
+        <button class="ghost" id="clear" type="button">Clear</button>
+      </section>
+    </aside>
+
+    <main class="main">
+      <div class="top">
+        <div>
+          <h1>The board</h1>
+          <p>Functional pieces first. Seasonal stuff before Dec 15. Printed on a Creality K2 Plus in 73072.</p>
+        </div>
+      </div>
+      <div class="filters" role="tablist" aria-label="Category">
+        <button type="button" data-cat="all" aria-pressed="true">All</button>
+        <button type="button" data-cat="desk">Desk</button>
+        <button type="button" data-cat="kitchen">Kitchen</button>
+        <button type="button" data-cat="seasonal">Seasonal</button>
+        <button type="button" data-cat="gift">Gift</button>
+      </div>
+      <div class="grid" id="grid"></div>
+      <footer class="notes">
+        PLA unless noted. Small parts are not toys for under-3s. Some designs are open-licensed — I sell the printed object, not the file.
+        CC BY / BY-SA pieces credit the designer on the order I send you: sazhnikoff (phone stand), Code and Make (headphones stand), Sofya (router stand), 3D Printy (dice box), James / Petr / theGreenOrange where those SKUs apply.
+      </footer>
+    </main>
+  </div>
+
+  <div class="mobile-ticket">
+    <div>
+      <div class="mono" id="m-count">0 items</div>
+      <div class="mono" id="m-sum">$0</div>
+    </div>
+    <button class="go" id="m-send" type="button" disabled>Send order</button>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    // Put your SMS number here as digits only, US, no plus. Example: "4055551212"
+    const PHONE = "";
+
+    const PRODUCTS = [
+      { id: "A",  name: "Charging phone stand",            price: 12, cat: "desk",     tag: "always-sells", blurb: "Portrait or landscape. Gap for the cable." },
+      { id: "B",  name: "Under-desk cable organizer",      price: 12, cat: "desk",     tag: "dorm",         blurb: "Velcro slots. Screw-mount or wall." },
+      { id: "G",  name: "Headphones stand",                price: 16, cat: "desk",     tag: "desk set",     blurb: "Cable channel in the neck. 205 mm tall." },
+      { id: "Q",  name: "Laptop / iPad / keyboard stand",  price: 16, cat: "desk",     tag: "desk set",     blurb: "Three slots. Frees the whole desk." },
+      { id: "W",  name: "Wi-Fi router stand",              price: 12, cat: "desk",     tag: "heat",         blurb: "Lifts it. Airflow underneath." },
+      { id: "AH", name: "Under-desk power-strip cradle",   price: 9,  cat: "desk",     tag: "no drill",     blurb: "Outlets face forward. No floor snake." },
+      { id: "C",  name: "Cookie cutters — comet + star",   price: 8,  cat: "seasonal", tag: "before Dec 15",blurb: "Bake set. Not warehouse plastic." },
+      { id: "D",  name: "Ornaments — 3 pack",              price: 20, cat: "seasonal", tag: "before Dec 15",blurb: "Mixed shapes. Tree-ready." },
+      { id: "N",  name: "Mantel stocking hook",            price: 7,  cat: "seasonal", tag: "no drill",     blurb: "Weighted base. No mantel damage." },
+      { id: "Y",  name: "Geometric coaster set",           price: 12, cat: "kitchen",  tag: "set of 4",     blurb: "Four shapes plus a display base." },
+      { id: "AI", name: "Kitchen tablet stand",            price: 12, cat: "kitchen",  tag: "recipes",      blurb: "Won’t tap the screen while you stir." },
+      { id: "AR", name: "Mug hooks — 4 pack",              price: 20, cat: "kitchen",  tag: "hidden hardware", blurb: "Under-shelf. Screws don’t show." },
+      { id: "AJ", name: "Cutting-board holder",            price: 9,  cat: "kitchen",  tag: "counter",      blurb: "Boards upright, dry, off the door." },
+      { id: "V",  name: "Rollup dice box",                 price: 20, cat: "gift",     tag: "tabletop",     blurb: "Six trays, ~42 dice. Norman / OU crowd." },
+      { id: "Z",  name: "Controller wall hook",            price: 9,  cat: "gift",     tag: "USB-C",        blurb: "Charge-through. Always on the wall." },
+      { id: "AD", name: "Tennis-court jewelry tray",       price: 12, cat: "gift",     tag: "gift",         blurb: "Earrings and rings. Mini court." },
+      { id: "AE", name: "Candle holder",                   price: 10, cat: "gift",     tag: "gift",         blurb: "Geometric. Not the Target one." },
+      { id: "AA", name: "Pocket card holder",              price: 6,  cat: "gift",     tag: "counter",      blurb: "A real stack of cards, pocket or desk." }
+    ];
+
+    const cart = new Map();
+    let cat = "all";
+
+    const grid = document.getElementById("grid");
+    const list = document.getElementById("ticket-list");
+    const sumEl = document.getElementById("ticket-sum");
+    const send = document.getElementById("send");
+    const mSend = document.getElementById("m-send");
+    const toast = document.getElementById("toast");
+
+    function money(n) { return "$" + n; }
+
+    function renderGrid() {
+      grid.innerHTML = "";
+      PRODUCTS.filter(p => cat === "all" || p.cat === cat).forEach(p => {
+        const qty = cart.get(p.id) || 0;
+        const b = document.createElement("button");
+        b.className = "card" + (qty ? " on" : "");
+        b.type = "button";
+        b.setAttribute("aria-pressed", qty ? "true" : "false");
+        b.innerHTML =
+          '<div class="sku"><b>' + p.id + '</b><span>' + p.cat + '</span></div>' +
+          '<h3>' + p.name + '</h3>' +
+          '<p>' + p.blurb + '</p>' +
+          '<div class="row"><span class="price">' + money(p.price) + (qty ? " × " + qty : "") + '</span>' +
+          '<span class="tag">' + p.tag + '</span></div>';
+        b.addEventListener("click", () => add(p.id));
+        grid.appendChild(b);
+      });
+    }
+
+    function add(id) {
+      cart.set(id, (cart.get(id) || 0) + 1);
+      renderGrid();
+      renderTicket();
+    }
+
+    function renderTicket() {
+      const items = [...cart.entries()].map(([id, qty]) => {
+        const p = PRODUCTS.find(x => x.id === id);
+        return { ...p, qty, line: p.price * qty };
+      });
+      const total = items.reduce((s, i) => s + i.line, 0);
+      const count = items.reduce((s, i) => s + i.qty, 0);
+      if (!items.length) {
+        list.innerHTML = '<li class="empty">Nothing yet.</li>';
+      } else {
+        list.innerHTML = items.map(i =>
+          "<li><span>" + i.id + " · " + i.name + (i.qty > 1 ? " ×" + i.qty : "") + "</span><span>" + money(i.line) + "</span></li>"
+        ).join("");
+      }
+      sumEl.textContent = money(total);
+      send.disabled = !items.length;
+      mSend.disabled = !items.length;
+      document.getElementById("m-count").textContent = count + (count === 1 ? " item" : " items");
+      document.getElementById("m-sum").textContent = money(total);
+    }
+
+    function orderText() {
+      const items = [...cart.entries()].map(([id, qty]) => {
+        const p = PRODUCTS.find(x => x.id === id);
+        return p.id + " " + p.name + " ×" + qty + " " + money(p.price * qty);
+      });
+      const total = [...cart.entries()].reduce((s, [id, qty]) => {
+        return s + PRODUCTS.find(x => x.id === id).price * qty;
+      }, 0);
+      return "73072 PRINTS order%0A" + items.join("%0A") + "%0ATotal " + money(total) + "%0APickup Norman, cash. Color: ";
+    }
+
+    function sendOrder() {
+      if (!cart.size) return;
+      const decoded = decodeURIComponent(orderText().replace(/%0A/g, "\n"));
+      const sms = PHONE
+        ? "sms:+1" + PHONE + "?&body=" + orderText()
+        : null;
+      if (sms) {
+        window.location.href = sms;
+      }
+      navigator.clipboard.writeText(decoded).then(() => ping("Order copied. Paste it in a text to me."), () => ping("Copy failed — screenshot the ticket."));
+    }
+
+    function ping(msg) {
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    document.querySelectorAll(".filters button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        cat = btn.dataset.cat;
+        document.querySelectorAll(".filters button").forEach(b => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+        renderGrid();
+      });
+    });
+    send.addEventListener("click", sendOrder);
+    mSend.addEventListener("click", sendOrder);
+    document.getElementById("clear").addEventListener("click", () => { cart.clear(); renderGrid(); renderTicket(); });
+
+    renderGrid();
+    renderTicket();
+  </script>
+</body>
+</html>

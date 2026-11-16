@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>73072 PRINTS — print cards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #eadfcb;
+      --ink: #1c1610;
+      --accent: #b33a0f;
+      --card: #f6efe0;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #ddd6c8; color: var(--ink); }
+    body { font-family: "IBM Plex Sans", sans-serif; }
+    .hud {
+      max-width: 8.5in;
+      margin: 24px auto;
+      padding: 0 16px 16px;
+    }
+    h1 { font-family: "Bricolage Grotesque", sans-serif; font-size: 28px; margin: 0 0 8px; letter-spacing: -0.03em; }
+    .hud p { margin: 0 0 12px; color: #5c5348; max-width: 62ch; }
+    .hud button {
+      font: inherit;
+      background: var(--ink);
+      color: var(--card);
+      border: 0;
+      min-height: 44px;
+      padding: 0 16px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    .sheet {
+      width: 8.5in;
+      height: 11in;
+      background: white;
+      margin: 0 auto 24px;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    }
+    .biz-grid {
+      position: absolute;
+      top: 0.5in;
+      left: 0.75in;
+      width: 7in;
+      height: 10in;
+      display: grid;
+      grid-template-columns: 3.5in 3.5in;
+      grid-template-rows: repeat(5, 2in);
+    }
+    .biz {
+      width: 3.5in;
+      height: 2in;
+      padding: 0.16in 0.16in 0.14in 0.18in;
+      display: grid;
+      grid-template-columns: 1fr 1.05in;
+      gap: 0.1in;
+      align-items: stretch;
+      background: var(--paper);
+      color: var(--ink);
+      overflow: hidden;
+    }
+    .biz .word {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+    }
+    .biz .word span { display: block; color: var(--accent); }
+    .biz .copy { font-size: 10.5px; line-height: 1.25; margin-top: 0.08in; }
+    .biz .copy b { display: block; font-weight: 500; }
+    .biz .foot {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 7.5px;
+      letter-spacing: 0.02em;
+      margin-top: auto;
+    }
+    .biz img {
+      width: 1.05in;
+      height: 1.05in;
+      align-self: center;
+      image-rendering: pixelated;
+      background: white;
+      padding: 4px;
+    }
+
+    .post-grid {
+      position: absolute;
+      inset: 0.5in;
+      display: grid;
+      grid-template-columns: 3.75in 3.75in;
+      grid-template-rows: 5in 5in;
+      gap: 0;
+    }
+    .post {
+      width: 3.75in;
+      height: 5in;
+      padding: 0.28in;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+      gap: 0.14in;
+      border: 0.5px dashed #c8bda8;
+    }
+    .post .word {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 800;
+      font-size: 34px;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+    }
+    .post .word span { color: var(--accent); }
+    .post .pitch { font-size: 13px; max-width: 28ch; }
+    .post ul { margin: 0; padding: 0; list-style: none; font-family: "IBM Plex Mono", monospace; font-size: 11px; display: grid; gap: 4px; }
+    .post .row { display: flex; justify-content: space-between; border-bottom: 1px solid #d2c6b0; padding-bottom: 3px; }
+    .post .qr-row { display: grid; grid-template-columns: 1.2in 1fr; gap: 0.14in; align-items: center; margin-top: auto; }
+    .post img { width: 1.2in; height: 1.2in; background: #fff; padding: 5px; }
+    .post .scan { font-size: 12px; }
+    .post .scan b { display: block; font-family: "Bricolage Grotesque", sans-serif; font-size: 16px; letter-spacing: -0.03em; }
+    .post .fine { font-size: 9px; color: #5c5348; font-family: "IBM Plex Mono", monospace; }
+
+    @media print {
+      .hud { display: none; }
+      body { background: white; }
+      .sheet { box-shadow: none; margin: 0; page-break-after: always; }
+      @page { size: letter; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hud">
+    <h1>Hard cards</h1>
+    <p>Page 1 is Avery 8371 (ten 3.5×2 wallet cards). Page 2 is four 3.75×5 leave-behinds — hand these at the door, don’t put them in a mailbox. Thick paper (80–110 lb cover) or laminate. Print actual size, not “fit to page.”</p>
+    <button type="button" onclick="window.print()">Print</button>
+    <a href="index.html">Back to the shop</a>
+  </div>
+
+  <section class="sheet" aria-label="Business cards">
+    <div class="biz-grid" id="biz"></div>
+  </section>
+
+  <section class="sheet" aria-label="Leave-behinds">
+    <div class="post-grid" id="post"></div>
+  </section>
+
+  <script>
+    const biz = document.getElementById("biz");
+    const post = document.getElementById("post");
+    const face = `
+      <div>
+        <div class="word">73072<span>PRINTS</span></div>
+        <div class="copy">Handmade 3D prints in Norman.<b>Scan, pick what you want, cash on pickup.</b></div>
+        <div class="foot">2–5 days · no apps · 73072</div>
+      </div>
+      <img src="qr.svg" alt="" />`;
+    for (let i = 0; i < 10; i++) {
+      const el = document.createElement("article");
+      el.className = "biz";
+      el.innerHTML = face;
+      biz.appendChild(el);
+    }
+    const leave = `
+      <div class="word">73072<span>PRINTS</span></div>
+      <p class="pitch">Someone on this street makes desk, kitchen, and gift prints to order. Not a Facebook post. A shop.</p>
+      <ul>
+        <li class="row"><span>Phone stand</span><span>$12</span></li>
+        <li class="row"><span>Cable organizer</span><span>$12</span></li>
+        <li class="row"><span>Headphones stand</span><span>$16</span></li>
+        <li class="row"><span>Cookie cutters</span><span>$8</span></li>
+        <li class="row"><span>Dice box</span><span>$20</span></li>
+      </ul>
+      <div class="qr-row">
+        <img src="qr.svg" alt="" />
+        <div class="scan"><b>Scan the board.</b> Pick pieces. I text a pickup window. Cash in Norman.</div>
+      </div>
+      <div class="fine">No mailbox drops. Handmade · 2–5 days · cash only</div>`;
+    for (let i = 0; i < 4; i++) {
+      const el = document.createElement("article");
+      el.className = "post";
+      el.innerHTML = leave;
+      post.appendChild(el);
+    }
+  </script>
+</body>
+</html>
